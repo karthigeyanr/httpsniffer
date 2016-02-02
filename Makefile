@@ -1,13 +1,13 @@
 
 
-SOURCES=src/*.c
+SOURCES=src/*.cpp
 INCLUDES=-I./include
 CFLAGS=-D__LITTLE_ENDIAN_BITFIELD
 EXE=sniffer
 
 
 all:
-	$(CC) $(INCLUDES) $(CFLAGS) -o $(EXE) $(SOURCES)
+	$(CXX) $(INCLUDES) $(CFLAGS) -o $(EXE) $(SOURCES)
 
 clean:
 	rm -f $(EXE)
