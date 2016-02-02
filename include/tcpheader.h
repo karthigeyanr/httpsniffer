@@ -38,7 +38,7 @@ typedef struct tcpheader
 	uint16_t window;
 	uint16_t checksum;
 	uint16_t urgptr;
-}tcpheader_t;
+}__attribute__((packed))tcpheader_t;
 
 
 #endif

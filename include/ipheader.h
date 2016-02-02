@@ -30,7 +30,7 @@ typedef struct ipheader
 	uint16_t checksum;
 	uint32_t srcaddr;
 	uint32_t destaddr;
-}ipheader_t;
+}__attribute__((packed))ipheader_t;
 
 
 

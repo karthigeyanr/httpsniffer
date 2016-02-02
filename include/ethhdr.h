@@ -16,7 +16,7 @@ typedef struct ethheader
 	{
 		uint16_t type;
 		uint16_t length;
-	}
-}ethheader_t
+	};
+}__attribute__((packed))ethheader_t;
 
 #endif
