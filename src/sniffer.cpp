@@ -8,13 +8,22 @@
 #include <netinet/ip.h>
 
 #include <vector>
+#include <pthread.h>
 
 #include "protheaders.h"
 #include "PacketList.hpp"
+#include "sniffer.hpp"
 
-using namespace std;
+Sniffer::Sniffer()
+{
+}
 
-int main(int argc, char *argv[])
+int Sniffer::startCapturing()
+{
+	pthread_create(&tid, NULL, &Sniffer::capturePackets, (void *)"lo");
+}
+
+void* Sniffer::capturePackets(void *arg)
 {
 	int sockfd;
 	struct sockaddr addr;
@@ -27,15 +36,15 @@ int main(int argc, char *argv[])
 	if(sockfd < 0)
 	{
 		perror("socket");
-		return -1;
+		pthread_exit(NULL);
 	}
 
 	memset(&ifr, 0, sizeof(ifr));
-	strncpy(ifr.ifr_name, "lo", sizeof(ifr.ifr_name));
+	strncpy(ifr.ifr_name, (char *)arg, sizeof(ifr.ifr_name));
 	if(setsockopt(sockfd, SOL_SOCKET, SO_BINDTODEVICE, &ifr, sizeof(ifr)) < 0)
 	{
 		perror("setsockopt");
-		return -1;
+		pthread_exit(NULL);
 	}
 
 	while(1)
@@ -50,5 +59,5 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	return 0;
+	pthread_exit(NULL);
 }
