@@ -7,8 +7,12 @@
 #include <string.h>
 #include <netinet/ip.h>
 
-#include "protheaders.h"
+#include <vector>
 
+#include "protheaders.h"
+#include "PacketList.hpp"
+
+using namespace std;
 
 int main(int argc, char *argv[])
 {
@@ -39,6 +43,11 @@ int main(int argc, char *argv[])
 		addrlen = sizeof(addr);
 		datalen = recvfrom(sockfd, buffer, 10000, 0, &addr, &addrlen);
 		printf("received %d bytes\n", datalen);
+
+		if(datalen > 0)
+		{
+			PacketList::addPacket(buffer, datalen);
+		}
 	}
 
 	return 0;
